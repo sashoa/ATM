@@ -99,11 +99,40 @@ namespace ATM
             }
         }
 
+        // Deposit action
+        private static void Deposit(Account account)
+        {
+            bool exit = false;
+            do
+            {
+                Console.Clear();
+                Header("Deposit");
+
+                Console.WriteLine("Enter amount to deposit");
+                double amountToDeposit = double.Parse(Console.ReadLine());
+
+                account.Balance = account.Balance + amountToDeposit;
+                Console.Write($"\nSuccessfully deposited {amountToDeposit} den.");
+
+                Console.Write("\n\nDo you want another transaction?\nYES - 1  NO - Any key\n");
+                string userChoice = Console.ReadLine();
+                if (userChoice != "1")
+                    exit = true;
+
+            } while (exit == false);
+        }
+
+
+
         static void Main(string[] args)
         {
             Account sashe = new Account("Sashe", "Apostolovski", "Dimitar Bozinovski no:7, Resen", 1234, 15000);
             Account jane = new Account("Jane", "Doe", "Mite Bogoevski no: 3, Resen", 4567, 30000);
             Account john = new Account("John", "Malkovich", "Leninova no:1, Skopje", 8901, 35000);
+
+            Console.WriteLine("Sashe's account balance: {0}", sashe.Balance);
+            Deposit(sashe);
+            Console.WriteLine("Sashe's account balance: {0}", sashe.Balance);
 
             Console.ReadLine();
         }

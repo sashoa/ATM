@@ -116,6 +116,37 @@ namespace ATM
             } while (WantAnotherTransaction());
         }
 
+        // Withdraw action
+        private static void Withdraw(Account account)
+        {
+            do
+            {
+                Console.Clear();
+                Header("Withdraw");
+                Console.WriteLine("Enter amount to withdraw");
+                double amountToWithdraw = double.Parse(Console.ReadLine());
+                double newBalance = account.Balance - amountToWithdraw;
+
+                if (amountToWithdraw < 100 || amountToWithdraw > 30000)
+                {
+                    Console.WriteLine("The ammount to withdraw should be bigger than 100 and smaller than 30000");
+                    Thread.Sleep(1500);
+                }
+                else if (newBalance >= 0)
+                {
+                    Console.Write($"\nSuccessfully withdrawn {amountToWithdraw} den.");
+                    Thread.Sleep(1500);
+                    account.Balance = newBalance;
+                }
+                else
+                {
+                    Console.WriteLine("You don't have that much money");
+                    Thread.Sleep(1500);
+                }
+
+            } while (WantAnotherTransaction());
+        }
+
         // Helpers
         private static bool WantAnotherTransaction()
         {
@@ -135,6 +166,8 @@ namespace ATM
 
             Console.WriteLine("Sashe's account balance: {0}", sashe.Balance);
             Deposit(sashe);
+            Console.WriteLine("Sashe's account balance: {0}", sashe.Balance);
+            Withdraw(sashe);
             Console.WriteLine("Sashe's account balance: {0}", sashe.Balance);
 
             Console.ReadLine();

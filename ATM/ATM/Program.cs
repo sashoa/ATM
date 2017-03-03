@@ -102,7 +102,6 @@ namespace ATM
         // Deposit action
         private static void Deposit(Account account)
         {
-            bool exit = false;
             do
             {
                 Console.Clear();
@@ -114,14 +113,18 @@ namespace ATM
                 account.Balance = account.Balance + amountToDeposit;
                 Console.Write($"\nSuccessfully deposited {amountToDeposit} den.");
 
-                Console.Write("\n\nDo you want another transaction?\nYES - 1  NO - Any key\n");
-                string userChoice = Console.ReadLine();
-                if (userChoice != "1")
-                    exit = true;
-
-            } while (exit == false);
+            } while (WantAnotherTransaction());
         }
 
+        // Helpers
+        private static bool WantAnotherTransaction()
+        {
+            Console.Write("\n\nDo you want another transaction?\nYES - 1  NO - Any key\n");
+            string userChoice = Console.ReadLine();
+            if (userChoice == "1")
+                return true;
+            return false;
+        }
 
 
         static void Main(string[] args)

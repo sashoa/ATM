@@ -157,12 +157,17 @@ namespace ATM
             Console.WriteLine($"Name: {account.Info.FirstName} {account.Info.LastName}");
             Console.WriteLine($"Address: {account.Info.Address}");
 
-            Console.WriteLine($"\nBack - 1\n");
-            string back = string.Empty;
-            while (back != "1")
-            {
-                back = Console.ReadLine();
-            }
+            PromptForExit();
+        }
+
+        // Check Balance action
+        private static void CheckBalance(Account account)
+        {
+            Console.Clear();
+            Header("ACCOUNT BALANCE");
+            Console.WriteLine($"Your account balance is {account.Balance}");
+
+            PromptForExit();
         }
 
         // Helpers
@@ -175,19 +180,22 @@ namespace ATM
             return false;
         }
 
+        private static void PromptForExit()
+        {
+            Console.WriteLine($"\nBack - 1\n");
+            string back = string.Empty;
+            while (back != "1")
+            {
+                back = Console.ReadLine();
+            }
+        }
+
 
         static void Main(string[] args)
         {
             Account sashe = new Account("Sashe", "Apostolovski", "Dimitar Bozinovski no:7, Resen", 1234, 15000);
             Account jane = new Account("Jane", "Doe", "Mite Bogoevski no: 3, Resen", 4567, 30000);
             Account john = new Account("John", "Malkovich", "Leninova no:1, Skopje", 8901, 35000);
-
-            Info(sashe);
-            //Console.WriteLine("Sashe's account balance: {0}", sashe.Balance);
-            //Deposit(sashe);
-            //Console.WriteLine("Sashe's account balance: {0}", sashe.Balance);
-            //Withdraw(sashe);
-            //Console.WriteLine("Sashe's account balance: {0}", sashe.Balance);
 
             Console.ReadLine();
         }

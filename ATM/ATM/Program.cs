@@ -7,34 +7,39 @@ using System.Threading.Tasks;
 
 namespace ATM
 {
-    class User
+    public class User
     {
         private static int _ids = 0;
-        private int _pin;
         private double _balance;
-        private UserInfo _info;
 
-        public int Ids { get; }
+        public static int Ids
+        {
+            get { return _ids; }
+        }
         public int Pin { get; set; }
-        public double Balance { get; }
-        public UserInfo Info { get; }
+        public double Balance
+        {
+            get { return _balance; }
+        }
+        public UserInfo Info { get; set; }
 
         public User(string firstName, string lastName, string address, int pin, double balance)
         {
             Pin = pin;
             _balance = balance;
-            _info = new UserInfo(_ids++, firstName, lastName, address);
+            Info = new UserInfo(++_ids, firstName, lastName, address);
         }
+
     }
 
-    class UserInfo
+    public class UserInfo
     {
         private int _uid;
-        private string _firstName;
-        private string _lastName;
-        private string _address;
 
-        public int Uid { get; }
+        public int Uid
+        {
+            get { return _uid; }
+        }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Address { get; set; }
@@ -90,7 +95,11 @@ namespace ATM
 
         static void Main(string[] args)
         {
-            ChangePin(User)
+            User sashe = new User("Sashe", "Apostolovski", "Dimitar Bozinovski no:7, Resen", 1234, 15000);
+            User jane = new User("Jane", "Doe", "Mite Bogoevski no: 3, Resen", 4567, 30000);
+            User john = new User("John", "Malkovich", "Leninova no:1, Skopje", 8901, 35000);
+
+            Console.ReadLine();
         }
     }
 }

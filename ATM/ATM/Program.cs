@@ -7,26 +7,22 @@ using System.Threading.Tasks;
 
 namespace ATM
 {
-    public class User
+    public class Account
     {
         private static int _ids = 0;
-        private double _balance;
 
         public static int Ids
         {
             get { return _ids; }
         }
         public int Pin { get; set; }
-        public double Balance
-        {
-            get { return _balance; }
-        }
+        public double Balance { get; set; }
         public UserInfo Info { get; set; }
 
-        public User(string firstName, string lastName, string address, int pin, double balance)
+        public Account(string firstName, string lastName, string address, int pin, double balance)
         {
             Pin = pin;
-            _balance = balance;
+            Balance = balance;
             Info = new UserInfo(++_ids, firstName, lastName, address);
         }
 
@@ -52,11 +48,23 @@ namespace ATM
             Address = address;
         }
     }
+
     class Program
     {
-        //Change user's pin
-        private static void ChangePin(User user)
+        // Draws Hader
+        private static void Header(string title)
         {
+            Console.WriteLine("*************************************************************");
+            Console.WriteLine("*************************************************************");
+            Console.WriteLine($"************************* {title} *************************");
+        }
+
+        // Change pin action
+        private static void ChangePin(Account account)
+        {
+            Console.Clear();
+            Header("Change Pin");
+
             int newPin;
             int newPinConfirm;
             while (true)
@@ -82,7 +90,7 @@ namespace ATM
                 {
                     Console.Write("\n\nPin Changed!");
                     Thread.Sleep(1500);
-                    user.Pin = newPin;
+                    account.Pin = newPin;
                 }
                 Console.Write("\nEnter 1 to try again or Any key to exit.\n");
                 string userChoice = Console.ReadLine();
@@ -91,13 +99,11 @@ namespace ATM
             }
         }
 
-
-
         static void Main(string[] args)
         {
-            User sashe = new User("Sashe", "Apostolovski", "Dimitar Bozinovski no:7, Resen", 1234, 15000);
-            User jane = new User("Jane", "Doe", "Mite Bogoevski no: 3, Resen", 4567, 30000);
-            User john = new User("John", "Malkovich", "Leninova no:1, Skopje", 8901, 35000);
+            Account sashe = new Account("Sashe", "Apostolovski", "Dimitar Bozinovski no:7, Resen", 1234, 15000);
+            Account jane = new Account("Jane", "Doe", "Mite Bogoevski no: 3, Resen", 4567, 30000);
+            Account john = new Account("John", "Malkovich", "Leninova no:1, Skopje", 8901, 35000);
 
             Console.ReadLine();
         }

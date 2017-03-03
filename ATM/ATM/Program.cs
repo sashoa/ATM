@@ -51,19 +51,36 @@ namespace ATM
 
     class Program
     {
+        private static Account[] _accounts = new Account[3]; //   <---- I will (maybe) implement this with List or Dictionary (LoginDetails<Card, Pin> : Account) when we get there.
+
+        public static Account[] Accounts
+        {
+            get { return _accounts; }
+        }
+
         // Draws Hader
-        private static void Header(string title)
+        private static void RenderHeader(string title)
         {
             Console.WriteLine("*************************************************************");
             Console.WriteLine("*************************************************************");
             Console.WriteLine($"************************* {title} *************************");
         }
 
+        // Draws Menu
+        private static void RenderMenu()
+        {
+            Console.Clear();
+            RenderHeader("Welcome");
+            Console.WriteLine("1 - Change Pin          Customer Information - 4");
+            Console.WriteLine("2 - Check Balance                    Deposit - 5");
+            Console.WriteLine("3 - Withdraw                            EXIT - 6");
+        }
+
         // Change pin action
         private static void ChangePin(Account account)
         {
             Console.Clear();
-            Header("Change Pin");
+            RenderHeader("Change Pin");
 
             int newPin;
             int newPinConfirm;
@@ -91,6 +108,7 @@ namespace ATM
                     Console.Write("\n\nPin Changed!");
                     Thread.Sleep(1500);
                     account.Pin = newPin;
+                    return;
                 }
                 Console.Write("\nEnter 1 to try again or Any key to exit.\n");
                 string userChoice = Console.ReadLine();
@@ -105,7 +123,7 @@ namespace ATM
             do
             {
                 Console.Clear();
-                Header("Deposit");
+                RenderHeader("Deposit");
 
                 Console.WriteLine("Enter amount to deposit");
                 double amountToDeposit = double.Parse(Console.ReadLine());
@@ -122,7 +140,7 @@ namespace ATM
             do
             {
                 Console.Clear();
-                Header("Withdraw");
+                RenderHeader("Withdraw");
                 Console.WriteLine("Enter amount to withdraw");
                 double amountToWithdraw = double.Parse(Console.ReadLine());
                 double newBalance = account.Balance - amountToWithdraw;
@@ -151,7 +169,7 @@ namespace ATM
         private static void Info(Account account)
         {
             Console.Clear();
-            Header("Account Info");
+            RenderHeader("Account Info");
 
             Console.WriteLine($"User ID: {account.Info.Uid}");
             Console.WriteLine($"Name: {account.Info.FirstName} {account.Info.LastName}");
@@ -164,10 +182,81 @@ namespace ATM
         private static void CheckBalance(Account account)
         {
             Console.Clear();
-            Header("ACCOUNT BALANCE");
+            RenderHeader("ACCOUNT BALANCE");
             Console.WriteLine($"Your account balance is {account.Balance}");
 
             PromptForExit();
+        }
+
+        // Log In
+        private static Account LogIn(int pin)
+        {
+            Account account = null;
+
+            foreach (Account acc in Accounts)
+            {
+                if (acc.Pin == pin)
+                {
+                    account = acc;
+                }
+                else
+                {
+                }
+            }
+
+            return account;
+        }
+
+        // Client Area
+        private static void ClientArea(Account account)
+        {
+            while (true)
+            {
+                RenderMenu();
+                Console.Write("\nChoose action: ");
+                string userChoice = Console.ReadLine();
+
+                switch (userChoice)
+                {
+                    case "1":
+                        {
+                            ChangePin(account);
+                        }
+                        break;
+                    case "2":
+                        {
+                            CheckBalance(account);
+                        }
+                        break;
+                    case "3":
+                        {
+                            Withdraw(account);
+                        }
+                        break;
+                    case "4":
+                        {
+                            Info(account);
+                        }
+                        break;
+                    case "5":
+                        {
+                            Deposit(account);
+                        }
+                        break;
+                    case "6":
+                        {
+                            Console.Clear();
+                            RenderHeader("Good Bye!");
+                            Thread.Sleep(1500);
+                            return;
+                        }
+                        break;
+                    default:
+                        Console.WriteLine("Wrong key!");
+                        break;
+                }
+            }
+
         }
 
         // Helpers
@@ -193,9 +282,42 @@ namespace ATM
 
         static void Main(string[] args)
         {
-            Account sashe = new Account("Sashe", "Apostolovski", "Dimitar Bozinovski no:7, Resen", 1234, 15000);
-            Account jane = new Account("Jane", "Doe", "Mite Bogoevski no: 3, Resen", 4567, 30000);
-            Account john = new Account("John", "Malkovich", "Leninova no:1, Skopje", 8901, 35000);
+            Accounts[0] = new Account("Sashe", "Apostolovski", "Dimitar Bozinovski no:7, Resen", 1234, 15000);
+            Accounts[1] = new Account("Jane", "Doe", "Mite Bogoevski no: 3, Resen", 4567, 30000);
+            Accounts[2] = new Account("John", "Malkovich", "Leninova no:1, Skopje", 8901, 35000);
+
+            int loginAttempts = 0;
+
+            while (loginAttempts < 3)
+            {
+                Console.Clear();
+                RenderHeader("Log In");
+                Console.Write("\n\nInput your pin: ");
+                int inputPin = int.Parse(Console.ReadLine());
+
+                Account account = LogIn(inputPin);
+
+                if (account != null)
+                {
+                    ClientArea(account);
+                    loginAttempts = 0;
+                }
+                else
+                {
+                    Console.WriteLine("Wrong pin!");
+                    Thread.Sleep(1500);
+                    loginAttempts++;
+                }
+
+            }
+
+            if (loginAttempts == 3)
+            {
+                Console.Write($"\nYou entered wrong pin 3 times. Exiting...");
+                Thread.Sleep(2500);
+                return;
+            }
+
 
             Console.ReadLine();
         }

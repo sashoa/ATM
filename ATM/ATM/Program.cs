@@ -147,6 +147,24 @@ namespace ATM
             } while (WantAnotherTransaction());
         }
 
+        // Info action
+        private static void Info(Account account)
+        {
+            Console.Clear();
+            Header("Account Info");
+
+            Console.WriteLine($"User ID: {account.Info.Uid}");
+            Console.WriteLine($"Name: {account.Info.FirstName} {account.Info.LastName}");
+            Console.WriteLine($"Address: {account.Info.Address}");
+
+            Console.WriteLine($"\nBack - 1\n");
+            string back = string.Empty;
+            while (back != "1")
+            {
+                back = Console.ReadLine();
+            }
+        }
+
         // Helpers
         private static bool WantAnotherTransaction()
         {
@@ -164,11 +182,12 @@ namespace ATM
             Account jane = new Account("Jane", "Doe", "Mite Bogoevski no: 3, Resen", 4567, 30000);
             Account john = new Account("John", "Malkovich", "Leninova no:1, Skopje", 8901, 35000);
 
-            Console.WriteLine("Sashe's account balance: {0}", sashe.Balance);
-            Deposit(sashe);
-            Console.WriteLine("Sashe's account balance: {0}", sashe.Balance);
-            Withdraw(sashe);
-            Console.WriteLine("Sashe's account balance: {0}", sashe.Balance);
+            Info(sashe);
+            //Console.WriteLine("Sashe's account balance: {0}", sashe.Balance);
+            //Deposit(sashe);
+            //Console.WriteLine("Sashe's account balance: {0}", sashe.Balance);
+            //Withdraw(sashe);
+            //Console.WriteLine("Sashe's account balance: {0}", sashe.Balance);
 
             Console.ReadLine();
         }

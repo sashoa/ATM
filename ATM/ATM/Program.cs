@@ -4,51 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Sashe.ATM;
 
 namespace ATM
 {
-    public class Account
-    {
-        private static int _ids = 0;
-
-        public static int Ids
-        {
-            get { return _ids; }
-        }
-        public int Pin { get; set; }
-        public double Balance { get; set; }
-        public UserInfo Info { get; set; }
-
-        public Account(string firstName, string lastName, string address, int pin, double balance)
-        {
-            Pin = pin;
-            Balance = balance;
-            Info = new UserInfo(++_ids, firstName, lastName, address);
-        }
-
-    }
-
-    public class UserInfo
-    {
-        private int _uid;
-
-        public int Uid
-        {
-            get { return _uid; }
-        }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Address { get; set; }
-
-        public UserInfo(int uid, string firstName, string lastName, string address)
-        {
-            _uid = uid;
-            FirstName = firstName;
-            LastName = lastName;
-            Address = address;
-        }
-    }
-
     class Program
     {
         private static Account[] _accounts = new Account[3]; //   <---- I will (maybe) implement this with List or Dictionary (LoginDetails<Card, Pin> : Account) when we get there.
